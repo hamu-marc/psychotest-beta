@@ -1,0 +1,40 @@
+test demoGRBAS
+randomstimuli
+randomscreen
+  screen per 1 G
+    stimulus 1.wav
+    stimulus 5.wav
+    stimulus 6.wav
+    stimulus 7.wav
+    task G
+    values 1,2,3,4,5
+  screen per 1 R
+    stimulus 1.wav
+    stimulus 5.wav
+    stimulus 6.wav
+    stimulus 7.wav
+    task G
+    values 1,2,3,4,5
+  screen per 1 B
+    stimulus 1.wav
+    stimulus 5.wav
+    stimulus 6.wav
+    stimulus 7.wav
+    task G
+    values 1,2,3,4,5
+  screen per 1 A
+    stimulus 1.wav
+    stimulus 5.wav
+    stimulus 6.wav
+    stimulus 7.wav
+    task G
+    values 1,2,3,4,5
+  screen per 1 S
+    stimulus 1.wav
+    stimulus 5.wav
+    stimulus 6.wav
+    stimulus 7.wav
+    task G
+    values 1,2,3,4,5
+ 
+ 

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+Test webdav, see console
+<div id="response"></div>
+<script>
+  let xhttp = new XMLHttpRequest();
+  xhttp.open("PROPFIND", "https://psychoacoustic-proxycors.herokuapp.com/https://owncloud.cesnet.cz/public.php/webdav/", true);
+  xhttp.setRequestHeader("Authorization", "Basic V3pIVll3clg4cVVkVVBzOm51bGw=");
+  xhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+  xhttp.send();
+  document.getElementById("response").innerHTML = xhttp.responseText;
+</script>
+</body>
+</html>

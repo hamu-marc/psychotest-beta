@@ -1,0 +1,78 @@
+test releasetest
+screen Úvod
+  text Tento test demonstruje vlastnosti verze Psychotest 2.0
+  text Test je rozdělen na několik obrazovek.
+  text Pro následující obrazovku použijte tlačítko <button>Další</button>.
+  text Pro předchozí obrazovku použijte tlačítko <button>Předchozí</button>.
+  text Celkový počet obrazovek a aktuální pořadí obrazovky je zobrazeno vždy v dolní části obrazovky.
+  text Na konci testu se objeví tlačítko <b>Ukončit</b>
+screen Zvuk
+  text Lze testovat zvukové, obrazové, video a textové stimuli, ty jsou uloženy vždy v samostatném souboru, který se dá nahrát pomocí editoru testu. Zvukové stimuli lze pustit stisknutím příslušného tlačítka <button>play</button> níže. <p> novy odstavec</p> <b>tucne</b>
+  stimulus 1.wav
+  text Pokud je vyžadována na nějakou otázku odpověď, pak při stisknutí tlačítka "Další" se začervení příslušná povinná pole na něž musíte odpovědět.
+  task Slyšeli jste něco?
+    values ano,ne
+screen Video
+  text Video stimul lze přehrávat pomocí ovládací lišty pod videem
+  stimulus yamaha/clavinovaclarinet.mp4
+  task Přehrálo se vám video
+    values ano,ne
+screen Obraz
+  text Obrázek se zobrazí v určité velikosti
+  stimulus tomas/347A0923.jpg
+  task Vidíte obrázek na této stránce
+  values ano,ne
+screen Text
+  text Textový stimul je obvykle nějaká pasáž z literatury, např. tento překlad apokryfního evangelia podle Tomáše verš 47.
+  stimulus tomas/evangeliumtomas47.txt
+  task Přečetli jste úryvek evangelia?
+  values ano,ne
+screen Projekty a role, přístup k testu
+  text Lze definovat projekty, které pak zpřístupňují testy určitým uživatelům. K testu se lze dostat i přímo pomocí unikátního URL. Např. tento test je dostupný na adrese <a href="http://physiome.lf1.cuni.cz/psychoacoustictest/psychotest.htm#127">http://physiome.lf1.cuni.cz/psychoacoustictest/psychotest.htm#127</a>. Kdokoliv si tuto adresu zadá do prohlížeče, test se mu hned spustí.
+  task Zobrazilo se vám unikátní URL
+  values ano,ne
+screen Datum a čas odpovědi
+  text U každé odpovědi se uloží i datum a čas, kdy byla odpověď vybrána
+  task Zkuste vybrat jednu z možností
+    values 1 2 3 4 5
+  text nyní počkejte asi 5 sekund
+  task Vyberte opět jednu z možností
+    values 1 2 3 4 5
+screen Kategoricky test
+  text Kategoricky test vytvori pro kazdy stimul jednu obrazovku se shodnou sadou otazek a odpovedi. Na dalšich 3 obrazovkách bude kategoricky test pro 3 různá videa, ale budete odpovídat na tutéž otázku.
+screen per 1 Kategorický test
+  stimulus yamaha/clavinovaguitar.mp4
+  stimulus yamaha/clavinovaclarinet.mp4
+  stimulus yamaha/clavinovaviolin.mp4
+  task Jaky zvuk slysite
+  values kytara klavír saxofon housle klarinet
+screen Párový test
+  text Párový test vytvoří dvojice z většího množství stimulů. Následující 3 obrazovky vždy zobrazí dvojice obrázků a tuto dvojici ohodnoťte
+screen per 2 Párový test
+  stimulus tomas/347A0923.jpg
+  stimulus tomas/IMG_4604.JPG
+  stimulus tomas/IMG_4687.JPG
+  task Ohodnoťte barevnost
+    values černobílé, normální, přebarvené
+  taskpair Který obrázek zobrazuje nějaký ptačí druh
+    values první, druhý, žádný
+screen Škály
+  stimulus 1.wav         
+  text Škály lze použít pro různé účely
+  task Na škále vyberte který obrázek je více barevný
+    scalevalues první,stejně,druhý
+  task Na škále vyberte jak ostrý je obrázek
+    scale 0 100 0 málo 33 středně 66 velmi 100 ostrý
+screen Ranking2D 
+  stimulus 1.wav,2.wav,3.wav
+  ranking2d drsnost;ostrost
+screen Editor
+  text Testy lze upravovat, server lze administrovat pomocí speciální aplikace a registrovaného jména a hesla. Viz <a href="http://physiome.lf1.cuni.cz/psychoacoustictest/Editor_pages/Editor.aspx">Editor</a>
+screen Konec
+  text Tlačítkem <button>Ukončit</button> definitivně potvrdíte všechny odpovědi, které jsou poslány na server pro pozdější statistické zpracování
+
+  
+  
+  
+           
+                            

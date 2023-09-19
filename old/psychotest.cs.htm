@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <title>Test - psychoakustický test</title>
+    <!--script src="Scripts/jquery-1.9.1.min.js" type="text/javascript"></!--script>
+    <script src="Scripts/jquery-ui.min.js" type="text/javascript"></script>
+
+    <script src="Scripts/psychotest-select.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-edit.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-interpret.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-serazovaci.js" type="text/javascript"></script>
+
+    <script src="Scripts/psychotest-result.js" type="text/javascript"></script>
+    <script src="Scripts/ext-jquery-ui.js" type="text/javascript"></script-->
+    <script type="text/javascript" src="Scripts/js-bundle.min.js"></script>
+    
+    <link href="Scripts/ext-jquery-ui.css" rel="stylesheet" type="text/css" />
+    
+    <link href="Scripts/jquery-ui.redmond.css" rel="stylesheet" type="text/css" />
+    <link href="Scripts/psychotest.css" rel="stylesheet" />
+    <script>
+        var PsychoTestUrl = "api/psychotests/";
+        var PsychoResultUrl = "api/psychotestResults/";
+        var PsychoResultIdUrl = "api/psychotestResult/";
+        var PsychoTestPauseUrl = "api/psychotestpausedtest/";
+        var SoundsUrl = "api/sounds/";
+        var SOUNDDIR = "Sounds/";
+    </script>
+    <style>
+        .ui-tabs-nav { display:none}
+        textarea { 
+            width:100%;
+        }
+        
+        .boxsizingBorder {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<div id="tabs">
+    <ul>
+        <li><a href="#tab_0">Uživatel</a></li>
+        <li><a href="#tab_1">Výběr testu</a></li>
+        <li><a href="#tab_2">Psychoakustický test</a></li>
+        <li><a href="#tab_3">Ukončení</a></li>
+    </ul>
+
+    <div id="tab_0">
+        <form id="register" onsubmit="focusListTest(); return false;">
+            <label for="loginname">Přihlašovací jméno:</label>
+            <input type="text" id="loginname" name="loginname" placeholder="přihlašovací jméno" title="Vyplňte přihlašovací jméno, které vám sdělil tvůrce testu." required autofocus/>
+        </form>
+    </div>
+
+    <div id="tab_1">
+        <p>Vyberte psychoakustický test:</p>
+        <select size="10" name="selectionField" id="models" onclick="getSelectedTest(this); focusTest();">
+
+        </select>
+        <script>
+            //updateTestList();
+            
+        </script>
+    </div>
+    <div id="tab_2">
+        <p id="tab2help">psychoakustický test. Doporučujeme přepnout na režim plné obrazovky (Full screen) tlačítkem F11 na klávesnici. Pro zahájení testu stiskněte tlačítko START níže na obrazovce, na konci se test ukončí tlačítkem UKONČI.</p>
+        <!--p align="center"> <b>Navigace</b><i id="notification" style="background-color:#ffdddd"></i></p></-->
+        <button type="button" id="start" style="float: left" onclick="starttest()">START</button>
+        <span align="center" id="notification" style="background-color:#ffdddd"></span>
+        <!--button type="button" id="previous" style="visibility: hidden; float: left" onclick="previoustestitem()">&lt;PŘEDCHOZÍ</button>
+         <button type="button" id="pause" style="float: left" onclick="pausetest()">Přerušit</button>
+         <i id="notification" style="background-color: #ffdddd"></i>
+         <button type="button" id="stop" style="visibility: hidden; float: right" onclick="if (submittest()) focusFinal();">UKONČI</button>
+         <button type="button" id="next" style="visibility: hidden; float: right" onclick="nexttestitem()">DALŠÍ&gt;</button-->
+        <br/>
+        <br/>
+        <hr/>
+        <div id=preview></div>
+        <hr/>
+        <button type="button" id="previous2" style="visibility: hidden; float: left" onclick="previoustestitem()">&lt;PŘEDCHOZÍ</button>
+        <button type="button" id="pause2" style="float: left" onclick="pausetest()">Přerušit</button>
+        <button type="button" id="stop2" style="visibility: hidden; float: right" onclick="if (submittest()) focusFinal();">UKONČI</button>
+        <button type="button" id="next2" style="visibility: hidden; float: right" onclick="nexttestitem()">DALŠÍ&gt;</button>
+        <br/>
+        <script>
+            
+        </script>
+    </div>
+    <div id="tab_3">
+        <p align="center">Děkujeme za vyplnění testu.</p>
+        <p></p>
+        <p align="center">Pro ukončení, zavřete okno prohlížeče</p>
+        <p align="center">Pokud chcete test opakovat nebo vybrat jiný test, klikněte zde:<button type="button" id="selectTest" onclick="focusListTest();">Výběr testu</button>
+        </p>
+    </div>
+</div>
+
+    <script>
+        $( "input[type=submit], a, button" ).button().click(function( event ) {
+          event.preventDefault();
+        });
+        
+        $("#tabs").tabs();        
+        $("#tabs").tabs({ hide: { effect: "fadeOut", duration: 500} });
+        $("#tabs").tabs({ show: { effect: "fadeIn", duration: 500 } });
+       
+
+        function focusListTest() {
+            if (testIdInUrl.length > 0) {
+                getSelectedTestById(testIdInUrl);
+                focusTest();
+            } else {
+                updateTestList();
+                $("#tabs").tabs("option", "active", 1);
+            }
+
+        }
+
+        function focusTest() {
+            cleartest();
+                $("#tabs").tabs("option", "active", 2); 
+            
+        }
+        function focusFinal() {
+            
+            $("#tabs").tabs("option", "active", 3);
+
+        }
+        //load test name from url after #
+        var testIdInUrl = document.location.hash.slice(1);
+        if (testIdInUrl.length > 0) {
+            getSelectedTestById(testIdInUrl);
+            focusTest();
+        } else {
+            updateTestList();
+            $("#tabs").tabs("option", "active", 1);
+        }
+    </script>
+</body>
+</html>

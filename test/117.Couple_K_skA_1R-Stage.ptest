@@ -1,0 +1,44 @@
+test Couple_K_skA_1R-Stage
+# prohlaseni
+screen Prihlášení 
+	text Vyplnte údaje
+    task Jméno
+    	edit
+# Instrukce
+screen Instrukce
+	text Cílem testu je porovnání mluvního hlasu na začátku a na konci prvního ročníku se zaměřením na: 
+    text          PROFESIONÁLNÍ MLUVNÍ PROJEV
+    text  
+    text Po stlačení tlačítek PLAY si vypočujete nahrávky.
+    text Zvuky jsou řazeny NÁHODNĚ (někdy je jako první zvuk prezentována nahrávka ze začátku ročníku někdy z konce)
+	text    
+    text V prvním úkolu ohodnoťte, na které nahrávce má student CELKOVĚ LEPŠÍ HLASOVÝ PROJEV.
+    text   
+    text V navazujících dvou oknech popište pro každou nahrávku VÝRAZNĚ ODLIŠNÉ vlastnosti od té další nahrávky.
+    text Zaměřte se jak na interpretační, tak na prozodické (rytmus, intonace) i ostatní kvalitativní (artikulace, rezonance, kulatost, ostrost...).
+    text   
+	text Popisujte vlastnosti v 2. stupni adjektiva tedy jako rezonovanější, tmavší, ostřejší (jako rozdíl od druhé nahrávky).
+    
+#obrazovka Test couple hodnocení zpevu
+randomstimuli 
+randomintuple
+screen per 1 Porovnání JEVIŠTNÍ MLUVY
+  stimulus KALD_skA_13az15/F1_U_Sta_KALD13.wav KALD_skA_13az15/F1_U_Sta_KALD14a.wav
+  stimulus KALD_skA_13az15/F2_U_Sta_KALD13.wav KALD_skA_13az15/F2_U_Sta_KALD14a.wav
+  stimulus KALD_skA_13az15/F3_U_Sta_KALD13.wav KALD_skA_13az15/F3_U_Sta_KALD14a.wav
+  stimulus KALD_skA_13az15/F4_U_Sta_KALD13.wav KALD_skA_13az15/F4_U_Sta_KALD14a.wav
+  stimulus KALD_skA_13az15/F5_U_Sta_KALD13.wav KALD_skA_13az15/F5_U_Sta_KALD14a.wav
+  stimulus KALD_skA_13az15/M1_U_Sta_KALD13.wav KALD_skA_13az15/M1_U_Sta_KALD14a.wav
+  stimulus KALD_skA_13az15/M2_U_Sta_KALD13.wav KALD_skA_13az15/M2_U_Sta_KALD14a.wav
+  stimulus KALD_skA_13az15/M3_U_Sta_KALD13.wav KALD_skA_13az15/M3_U_Sta_KALD14a.wav
+  stimulus KALD_skA_13az15/M4_U_Sta_KALD13.wav KALD_skA_13az15/M4_U_Sta_KALD14a.wav
+  stimulus KALD_skA_13az15/M5_U_Sta_KALD13.wav KALD_skA_13az15/M5_U_Sta_KALD14a.wav
+  
+  task Na které nahrávce je celkově KVALITNĚJŠÍ MLUVNÍ PROJEV
+  	values prvni ~stejné druhá
+  
+  task Popište 1. nahrávku odlišnost od té druhé
+  	edit?
+  
+  task Popište 2. nahrávku odlišnost od té první
+  	edit?
