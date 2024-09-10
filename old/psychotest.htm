@@ -1,0 +1,257 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <title>Test-acoustic research</title>
+    <script src="Scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="Scripts/jquery-ui.min.js" type="text/javascript"></script>
+
+    <script src="Scripts/01jquery-1.9.1.debug.js" type="text/javascript"></script>
+    <script src="Scripts/02jquery-ui.debug.js" type="text/javascript"></script>
+    <script type="text/javascript" src="Scripts/03codemirror.debug.js"></script>
+    <script src="Scripts/04jquery.handsontable.full.debug.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-dsl.debug.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-dsl-interpret.debug.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-dsl-interpreter.debug.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-dsl-preprocess.debug.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-dsl-responses.debug.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-dsl-slider.debug.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-dsl-stimulus.debug.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-select.debug.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-edit.debug.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-serazovaci.debug.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-result.debug.js" type="text/javascript"></script>
+    <script src="Scripts/psychotest-newresults.debug.js"></script>
+    <script src="Scripts/ext-jquery-ui.debug.js" type="text/javascript"></script>
+    <script src="Scripts/t01knockout-3.3.0.debug.js" type="text/javascript"></script>
+    <script src="Scripts/t02tgrid.debug.js" type="text/javascript"></script>
+    <script src="Scripts/t03tgrid-array-items-provider.debug.js" type="text/javascript"></script>
+    <script src="Scripts/t04tgrid-knockout.debug.js" type="text/javascript"></script>
+        <!--
+    <script type="text/javascript" src="Scripts/js-bundle.min.js"></script>
+       -->
+    <link href="Scripts/ext-jquery-ui.css" rel="stylesheet" type="text/css" />
+    
+    <link href="Scripts/jquery-ui.redmond.css" rel="stylesheet" type="text/css" />
+    <link href="Scripts/psychotest.css" rel="stylesheet" />
+    <script>
+        var PsychoTestUrl = "api/psychotests/";
+        var PsychoTestAccountUrl = "api/psychotestaccount/";
+        var PsychoResultUrl = "api/psychotestResults/";
+        var PsychoResultIdUrl = "api/psychotestResult/";
+        var PsychoTestPauseUrl = "api/psychotestpausedtest/";
+        var PausedTestPerUserURL = "api/psychotestpausedperuser/";
+        var SoundsUrl = "api/sounds/";
+        var SOUNDDIR = "Sounds/";
+        var loginemail = "";
+
+    </script>
+    <style>
+        .ui-tabs-nav { display:none}
+        textarea { 
+            width:100%;
+        }
+        
+        .boxsizingBorder {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<div id="tabs">
+    <ul>
+        <li><a href="#tab_0">Welcome</a></li>
+        <li><a href="#tab_1">User</a></li>
+        <li><a href="#tab_3">Test execution</a></li>
+        <li><a href="#tab_4">Finish</a></li>
+        <li><a href="#tab_5">Pause</a></li>
+    </ul>
+
+    <div id="tab_0">
+        <div id="nologin" align="right">
+            <button onclick="focusLogin();">Log in</button>
+        </div>
+        <div id="logged" align="right" hidden>
+            Logged as:<span id="username"></span> <button onclick="focusLogout();">Log out</button>
+        </div>
+        <h2>Listening and watching survey for voice science and psychoacoustic research.</h2><br/>
+        <p>select test:</p>
+        <div id="tests" class="w3-btn-bar w3-border">
+            <!--
+
+            <select size="3" name="selectionField" id="pausedtests" onclick="getSelectedPausedTest(this); focusResumeTest();">
+
+            </select>
+        </div>
+        <div class="select-style">
+        <select size="10" name="selectionField" id="models" onclick="getSelectedTest(this); focusTest();">
+
+        </select>
+            -->
+        </div>
+    </div>
+
+    <div id="tab_1">
+        <form id="register" onsubmit="focusListTest(); return false;">
+            <label for="loginname">login name (e-mail):</label>
+            <input type="text" id="loginname" name="loginname" placeholder="přihlašovací jméno" title="Vyplňte přihlašovací jméno, které vám sdělil tvůrce testu." required autofocus/><br/>
+            <label for="password">password:</label>
+            <input type="password" id="password" name="password" placeholder="heslo" title="heslo" required/><br/>
+            <input type="submit" value="login">
+        </form>
+    </div>
+
+    <div id="tab_3">
+        <p id="tab2help">Test execution. We recommend to switch to full-screen mode using e.g. F11 button. To start the test execution press the START or RESUME button bellow.</p>
+        <!--p align="center"> <b>Navigace</b><i id="notification" style="background-color:#ffdddd"></i></p></-->
+        <button type="button" id="start" style="float: left" onclick="starttest()">START</button>
+        <button type="button" id="resume" style="visibility: hidden;float: left" onclick="resumetest()">RESUME</button>
+        <span align="center" id="notification" style="background-color:#ffdddd"></span>
+        <!--button type="button" id="previous" style="visibility: hidden; float: left" onclick="previoustestitem()">&#8592;PREVIOUS</button>
+        <button type="button" id="pause" style="float: left" onclick="pausetest()">Pause</button>
+        <i id="notification" style="background-color: #ffdddd"></i>
+        <button type="button" id="stop" style="visibility: hidden; float: right" onclick="if (submittest()) focusFinal();">SUBMIT</button>
+        <button type="button" id="next" style="visibility: hidden; float: right" onclick="nexttestitem()">NEXT&#8594;</button-->
+        <br/>
+        <br/>
+        <hr/>
+        <div id=preview></div>
+        <hr/>
+        <button type="button" id="previous2" style="visibility: hidden; float: left" onclick="previoustestitem()">&#8592;PREVIOUS</button>
+        <button type="button" id="pause2" style="visibility:hidden; float: left" onclick="pausetest()">HOLD</button>
+        <button type="button" id="stop2" style="visibility: hidden; float: right" onclick="if (submittest()) focusFinal();">SUBMIT</button>
+        <button type="button" id="next2" style="visibility: hidden; float: right" onclick="nexttestitem()">NEXT&#8594;</button>
+        <br/>
+        <script>
+            
+        </script>
+    </div>
+    <div id="tab_4">
+        <p align="center">Thank you for executing the test.</p>
+        <p></p>
+        <p align="center">You can close the browser window. </p>
+        <p align="center">If you want to select and execute another test, click to <button type="button" id="selectTest" onclick="focusListTest();">Select another test</button>
+        </p>
+    </div>
+    <div id="tab_5">
+        <p align="center">The test was paused and temporal results were saved. </p>
+        <p></p>
+        <p align="center">You can resume the paused test using following address: <a id="pausedtesturl" href=""></a>. Save it for the further usage.</p>
+        <p align="center">If you're logged in, the paused tests will be visible in the list of available tests, you can resume the test later there too.</p>
+        <p align="center">Now you can leave this application. </p>
+        <p align="center">If you want to resume, select and execute another test, click to <button type="button" id="selectTest" onclick="focusListTest();">Test selection</button>
+        </p>
+    </div>
+
+</div>
+
+<script>
+    //from jquery ui, r
+    $("input[type=submit],a , button").button();/*.click(function( event )
+        event.preventDefault();
+    });*/
+        
+    $("#tabs").tabs();
+    //$("#models").selectmenu();
+    $("#tabs").tabs({ hide: { effect: "fadeOut", duration: 500} });
+    $("#tabs").tabs({ show: { effect: "fadeIn", duration: 500 } });
+
+
+    function focusListTest() {
+        if (testIdInUrl.length > 0) {
+            if (testIdInUrl[0]=='p') { //p delimites paused tests
+                testIdInUrl = testIdInUrl.substr(1);
+                //decode
+                getSelectedPausedTestById(decodeid(testIdInUrl));
+                focusResumeTest();
+            } else { //without any preposition delimites normal test from begining
+                getSelectedTestById(decodeid(testIdInUrl));
+                focusTest();
+            }
+        } else {
+            updateTestList();
+            $("#tabs").tabs("option", "active", 0);
+        }
+
+    }
+
+    function focusTest() {
+        cleartest();
+        $("#tabs").tabs("option", "active", 2);
+        switchvisibility(true, "start");
+        switchvisibility(false, "resume");
+    }
+
+    function focusResumeTest() {
+        cleartest();
+        $("#tabs").tabs("option", "active", 2);
+        switchvisibility(false, "start");
+        switchvisibility(true, "resume");
+    }
+
+    function focusFinal() {
+        $("#tabs").tabs("option", "active", 3);
+
+    }
+
+    function focusPaused() {
+        $("#tabs").tabs("option", "active", 4);
+        //show paused test url for further
+        var pausedtesturl = document.location.origin+document.location.pathname+"#p"+encodeid(pausedtestid);
+        $("#pausedtesturl").attr("href",pausedtesturl);
+        $("#pausedtesturl").text(pausedtesturl);
+    }
+
+    function focusLogin() {
+        //$("#tabs").tabs("option", "active", 1);
+        window.location.replace("Account/Login.aspx"); //redirect to login page
+    }
+
+    function focusLogout() {
+        $.ajax({
+            type: "DELETE",
+            dataType: "json",
+            url: PsychoTestAccountUrl,
+            //headers: { "username": username },
+            success: function (data) {
+                    $("#nologin").show();
+                    $("#logged").hide();
+                    $("#loginname").val("");
+                    $("#username").text("");
+                    updateTestList();
+
+            }
+        });
+    }
+
+    function checkAuthenticatedUser() {
+        $.ajax({
+            dataType: "json",
+            url: PsychoTestAccountUrl,
+            //headers: { "username": username },
+            success: function (data) {
+                if (data.hasOwnProperty("loginname")) {
+                    $("#nologin").hide();
+                    $("#logged").show();
+                    $("#username").text(data.loginname);
+                    //loginname = data.loginname;
+                    updateTestList();
+                } else {
+                    $("#nologin").show();
+                    $("#logged").hide();
+                    $("#username").text("");
+                    updateTestList();
+                }
+            }
+        });
+    }
+    //load test name from url after #
+    var testIdInUrl = document.location.hash.slice(1);
+    if (testIdInUrl.length > 0) focusListTest();
+    else $("#tabs").tabs("option", "active", 0);
+    checkAuthenticatedUser();
+</script>
+</body>
+</html>
